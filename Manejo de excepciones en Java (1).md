@@ -710,11 +710,22 @@ Cada estudiante entregar:
 * `ProcesadorCalificaciones.java`  
 * `CalificacionInvalidaException.java`  
 * `SinDatosValidosException.java`, si se realiza el reto  
+![Evidencia de ejecución](evidencia-ejecucion.png)
 * `calificaciones.txt`  
 * evidencia de las ejecuciones;  
 * respuestas a las preguntas de reflexión;  
 * breve explicación de qué excepciones son *checked* y cuáles *unchecked* dentro de su solución.
+Excepciones Checked (Verificadas):
 
+IOException (y su hija FileNotFoundException): Son lanzadas por el método FileReader al intentar abrir el archivo. Son Checked porque el compilador nos obliga a manejarlas (con try-catch en el main o declarando throws IOException en procesarArchivo y calcularPromedio). Ocurren por factores externos (el archivo no existe o no se tiene permiso).
+
+CalificacionInvalidaException (Nuestra excepción personalizada): Al heredar directamente de Exception, se convierte en una excepción Checked. El compilador nos obliga a declararla con throws en el método validarCalificacion y a atraparla con catch donde se llama.
+
+SinDatosValidosException (Nuestra excepción personalizada): Al igual que la anterior, hereda de Exception, por lo que el compilador nos obliga a manejarla con throws y catch.
+
+Excepciones Unchecked (No Verificadas):
+
+NumberFormatException: Ocurre cuando se intenta convertir una cadena de texto (como "abc") a un número entero usando Integer.parseInt(). Es Unchecked porque hereda de RuntimeException y el compilador no obliga a manejarla, aunque en este código sí la atrapamos para que el programa no se detenga abruptamente.
 # **21\. Preguntas de reflexión**
 
 1. ¿Qué diferencia existe entre lanzar y capturar una excepción?  
