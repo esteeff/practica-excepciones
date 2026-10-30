@@ -211,6 +211,7 @@ try {
 ### **Pregunta**
 
 ¿Por qué sería incorrecto invertir el orden anterior?
+Prque Java evalúa los catch de arriba hacia abajo. La clase Exception es la "madre" de todas las excepciones, por lo que si la pones primero, atrapará cualquier error (incluyendo NumberFormatException), y el bloque de abajo nunca se ejecutará. El compilador de Java de hecho marca un error si intentas poner una excepción más general antes que una más específica.
 
 
 # **Parte IV. `finally`**
@@ -261,6 +262,7 @@ Probar:
 * contenido inválido.
 
 ¿En qué situaciones se ejecuta `finally`?
+El bloque finally se ejecuta siempre. Se ejecuta si el try termina con éxito, si ocurre una excepción y el catch la atrapa, e incluso si ocurre una excepción que no se atrapa y el programa se cae. Su propósito es garantizar la limpieza de recursos.
 
 
 # **Parte V. `try-with-resources`**
