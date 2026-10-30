@@ -613,6 +613,11 @@ try {
 }
 
 Identificar al menos tres problemas.
+1. Captura Throwable: Es una mala práctica porque Throwable atrapa todo, incluyendo errores del sistema de la máquina virtual (como OutOfMemoryError), de los cuales el programa no puede recuperarse.
+
+2. Ignora completamente la excepción: El bloque catch está vacío. El programa falla silenciosamente y el programador no se entera de qué pasó.
+
+3. No utiliza una excepción específica: Debió usar catch (NumberFormatException e) que es el error real que lanza el parseInt.
 
 ### **Aspectos esperados**
 
@@ -623,6 +628,11 @@ Identificar al menos tres problemas.
 
 Proponer una versión mejorada.
 
+try {
+    int numero = Integer.parseInt(valor);
+} catch (NumberFormatException e) {
+    System.err.println("Error: El valor ingresado no es un número entero. " + e.getMessage());
+}
 
 # **17\. Documentar excepciones**
 
@@ -656,14 +666,14 @@ Antes de entregar, revisar:
 
 | Buena práctica | Cumple |
 | ----- | ----- |
-| Utiliza excepciones específicas | ☐ |
-| No captura `Throwable` | ☐ |
-| No ignora excepciones | ☐ |
-| Usa mensajes descriptivos | ☐ |
-| Captura primero excepciones específicas | ☐ |
-| Utiliza `try-with-resources` | ☐ |
-| Documenta `throws` | ☐ |
-| No utiliza `throws Exception` sin necesidad | ☐ |
+| Utiliza excepciones específicas | SI | Use NumberFormatException, IOException y CalificacionInvalidaException en lugar de Exception genérica. |
+| No captura `Throwable` | SI | Solo atrapa excepciones específicas.|
+| No ignora excepciones | SI |Todos los catch tienen un System.err.println con un mensaje descriptivo.|
+| Usa mensajes descriptivos | SI | Los mensajes explican exactamente qué falló|
+| Captura primero excepciones específicas | SI | Está NumberFormatException antes que IllegalArgumentException|
+| Utiliza `try-with-resources` | SI | Está try (BufferedReader lector = ...) para cerrar el archivo automáticamente.
+| Documenta `throws` | SI | Agre Javadoc con @throws en calcularPromedio y validarCalificacion
+| No utiliza `throws Exception` sin necesidad | SI| 
 
 El material también advierte contra registrar una excepción y volver a lanzarla innecesariamente, pues puede producir múltiples mensajes para el mismo problema; cuando se requiere agregar contexto, propone envolver la excepción preservando la causa original.
 

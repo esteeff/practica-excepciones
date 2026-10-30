@@ -5,15 +5,24 @@ import java.io.IOException;
 public class ProcesadorCalificaciones {
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Uso: java ProcesadorCalificaciones <archivo>");
+            return;
+        }
+
+        String nombreArchivo = args[0];
+
         try {
-            double promedio = calcularPromedio("calificaciones.txt");
+            double promedio = calcularPromedio(nombreArchivo);
             System.out.printf("Promedio de valores válidos: %.2f%n", promedio);
         } catch (IOException e) {
             System.err.println("No fue posible procesar el archivo: " + e.getMessage());
+        } catch (SinDatosValidosException e) {
+            System.err.println("Error: " + e.getMessage());
         }
     }
 
-    public static double calcularPromedio(String archivo) throws IOException {
+    public static double calcularPromedio(String archivo) throws IOException, SinDatosValidosException {
         double suma = 0;
         int contador = 0;
 
@@ -42,9 +51,9 @@ public class ProcesadorCalificaciones {
                 }
             }
         }
-        
+      
         if (contador == 0) {
-            return 0;
+            throw new SinDatosValidosException("El archivo no contiene ninguna calificación válida.");
         }
         
         return suma / contador;
