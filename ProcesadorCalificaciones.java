@@ -5,7 +5,6 @@ import java.io.IOException;
 public class ProcesadorCalificaciones {
 
     public static void main(String[] args) {
-      
         try {
             procesarArchivo("calificaciones.txt");
         } catch (IOException e) {
@@ -32,16 +31,16 @@ public class ProcesadorCalificaciones {
                     
                 } catch (NumberFormatException e) {
                     System.err.println("Formato numérico inválido: " + e.getMessage());
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Argumento inválido: " + e.getMessage());
+                } catch (CalificacionInvalidaException e) {
+                    System.err.println("Error en los datos: " + e.getMessage());
                 }
             }
         }
     }
 
-    public static void validarCalificacion(int calificacion) {
+    public static void validarCalificacion(int calificacion) throws CalificacionInvalidaException {
         if (calificacion < 0 || calificacion > 100) {
-            throw new IllegalArgumentException("Calificación fuera de rango: " + calificacion);
+            throw new CalificacionInvalidaException("Calificación fuera de rango: " + calificacion);
         }
     }
 }
