@@ -6,36 +6,48 @@ public class ProcesadorCalificaciones {
 
     public static void main(String[] args) {
         try {
-            procesarArchivo("calificaciones.txt");
+            double promedio = calcularPromedio("calificaciones.txt");
+            System.out.printf("Promedio de valores válidos: %.2f%n", promedio);
         } catch (IOException e) {
-            System.err.println("No fue posible procesar el archivo.");
+            System.err.println("No fue posible procesar el archivo: " + e.getMessage());
         }
     }
 
-    public static void procesarArchivo(String nombreArchivo) throws IOException {
-        
-        try (BufferedReader lector = new BufferedReader(new FileReader(nombreArchivo))) {
+    public static double calcularPromedio(String archivo) throws IOException {
+        double suma = 0;
+        int contador = 0;
+
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
             String linea;
 
             while ((linea = lector.readLine()) != null) {
                 
                 if (linea.isBlank()) {
-                    System.err.println("Argumento inválido: La línea no puede estar vacía.");
-                    continue; 
+                    System.err.println("Dato ignorado: línea vacía.");
+                    continue;
                 }
 
                 try {
                     int calificacion = Integer.parseInt(linea.trim());
                     validarCalificacion(calificacion);
-                    System.out.println("Calificación válida: " + calificacion);
                     
+                    System.out.println("Calificación válida: " + calificacion);
+                    suma += calificacion;
+                    contador++;
+
                 } catch (NumberFormatException e) {
-                    System.err.println("Formato numérico inválido: " + e.getMessage());
+                    System.err.println("Dato ignorado: " + linea);
                 } catch (CalificacionInvalidaException e) {
-                    System.err.println("Error en los datos: " + e.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
         }
+        
+        if (contador == 0) {
+            return 0;
+        }
+        
+        return suma / contador;
     }
 
     public static void validarCalificacion(int calificacion) throws CalificacionInvalidaException {
