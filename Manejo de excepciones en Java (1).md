@@ -300,8 +300,13 @@ try (
 Responder:
 
 * ¿Qué código desapareció?  
+Desapareció el bloque finally completo, la declaración de lector = null al inicio, y la llamada manual a lector.close().
+
 * ¿Quién cierra ahora el archivo?  
+La Máquina Virtual de Java (el propio try-with-resources) se encarga de cerrar el recurso automáticamente al terminar el bloque try, sin importar si hubo errores.
+
 * ¿Qué versión resulta más clara?
+La versión con try-with-resources es mucho más clara, corta y menos propensa a errores.
 
 ---
 
@@ -353,10 +358,10 @@ Cada equipo deberá definir:
 
 | Condición | Excepción | Mensaje |
 | ----- | ----- | ----- |
-| Línea vacía |  |  |
-| Valor no numérico |  |  |
-| Valor \< 0 |  |  |
-| Valor \> 100 |  |  |
+| Línea vacía | IllegalArgumentException | "La línea no puede estar vacía" |
+| Valor no numérico |NumberFormatException  |"Formato numérico inválido: [texto]"|
+| Valor \< 0 | IllegalArgumentException | "Calificación fuera de rango: [número]" |
+| Valor \> 100 | IllegalArgumentException | "Calificación fuera de rango: [número]" |
 
 El material recomienda utilizar excepciones lo más específicas posible y evitar declarar genéricamente `throws Exception`.
 
