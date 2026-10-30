@@ -5,9 +5,17 @@ import java.io.IOException;
 public class ProcesadorCalificaciones {
 
     public static void main(String[] args) {
+      
+        try {
+            procesarArchivo("calificaciones.txt");
+        } catch (IOException e) {
+            System.err.println("No fue posible procesar el archivo.");
+        }
+    }
 
-        try (BufferedReader lector = new BufferedReader(new FileReader("calificaciones.txt"))) {
-
+    public static void procesarArchivo(String nombreArchivo) throws IOException {
+        
+        try (BufferedReader lector = new BufferedReader(new FileReader(nombreArchivo))) {
             String linea;
 
             while ((linea = lector.readLine()) != null) {
@@ -19,9 +27,7 @@ public class ProcesadorCalificaciones {
 
                 try {
                     int calificacion = Integer.parseInt(linea.trim());
-                    
                     validarCalificacion(calificacion);
-                    
                     System.out.println("Calificación válida: " + calificacion);
                     
                 } catch (NumberFormatException e) {
@@ -30,9 +36,6 @@ public class ProcesadorCalificaciones {
                     System.err.println("Argumento inválido: " + e.getMessage());
                 }
             }
-
-        } catch (IOException e) {
-            System.err.println("Error de entrada/salida: " + e.getMessage());
         }
     }
 
